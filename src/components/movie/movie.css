@@ -1,0 +1,151 @@
+.movie {
+  width: 454px;
+  height: 281px;
+  display: flex;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  margin-bottom: 36px;
+}
+
+.movie-poster {
+  width: 183px;
+  height: 281px;
+}
+
+.movie-poster img {
+  width: 183px;
+  height: 281px;
+}
+
+.movie-info {
+  position: relative;
+  width: 271px;
+  padding-top: 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.movie-title {
+  margin-bottom: 7px;
+  margin-right: 20px;
+
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.movie-score,
+.movie-date--release,
+.movie-description,
+.movie-genres {
+  font-size: 12px;
+  line-height: 22px;
+}
+
+.movie-score {
+  position: absolute;
+  top: 12px;
+  right: 9px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.movie-score p {
+  line-height: normal;
+}
+
+.score-color1 {
+  border: 2px solid #e90000;
+}
+
+.score-color2 {
+  border: 2px solid #e97e00;
+}
+
+.score-color3 {
+  border: 2px solid #e9d100;
+}
+
+.score-color4 {
+  border: 2px solid #66e900;
+}
+
+.movie-date--release {
+  color: #827e7e;
+  margin-bottom: 7px;
+}
+
+.movie-genres {
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.65);
+  margin-bottom: 7px;
+}
+
+.movie-genres p {
+  margin-right: 8px;
+  width: 46px;
+  text-align: center;
+  border-radius: 2px;
+  border: 1px solid #d9d9d9;
+}
+
+.movie-score-stars {
+  position: absolute;
+  bottom: 15px;
+  width: 239px;
+  display: flex;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .movie {
+    max-width: 387px;
+    height: 245px;
+    margin-bottom: 20px;
+  }
+
+  .movie-poster,
+  .movie-poster img {
+    width: 60px;
+    height: 91px;
+  }
+
+  .movie-poster {
+    margin-top: 6px;
+    margin-left: 10px;
+    margin-right: 13px;
+  }
+
+  .movie-poster img {
+    font-size: 10px;
+  }
+
+  .movie-info {
+    min-width: 300px;
+    padding-left: 0px;
+    padding-top: 4px;
+    padding-right: 0px;
+  }
+
+  .movie-score {
+    top: 5px;
+  }
+
+  .movie-genres {
+    margin-bottom: 19px;
+    height: 20px;
+  }
+
+  .movie-description {
+    transform: translate(-73px);
+    max-width: 370px;
+    min-width: 335px;
+  }
+
+  .movie-score-stars {
+    right: 5px;
+  }
+}

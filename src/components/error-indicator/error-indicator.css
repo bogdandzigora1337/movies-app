@@ -1,0 +1,9 @@
+.alert-block {
+  width: 100%;
+}
+
+.alert-content {
+  padding-top: 50px;
+  font-size: 25px;
+  height: 200px;
+}

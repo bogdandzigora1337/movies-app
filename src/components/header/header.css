@@ -1,0 +1,21 @@
+.header {
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.header-input {
+  max-width: 944px;
+}
+
+@media (max-width: 1009px) {
+  .header-input {
+    max-width: 454px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-input {
+    max-width: 387px;
+  }
+}
