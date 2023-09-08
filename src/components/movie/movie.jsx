@@ -1,13 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { format } from "date-fns";
 import { Rate } from "antd";
+import { useMovieGenres } from "../movie-genres-provider/genres-provider";
 
 import myImage from "../image/no-image.jpg";
 import "./movie.css";
 
-const Movie = ({ movie }) => {
-  const [movi, setMovi] = useState(movie);
-  console.log(movi);
+const Movie = ({ movie, rateMovie, guestSessionId, movies, setMovies }) => {
+  const genresArray = useMovieGenres();
+
+  const renderGenres = () => {
+    const movieGenreNames = movie.genre_ids
+      .map((genreId) => {
+        const genre = genresArray.find((genre) => genre.id === genreId);
+        return genre ? genre.name : null;
+      })
+      .filter(Boolean);
+
+    return movieGenreNames.map((elem, index) => {
+      return <p key={index}>{elem}</p>;
+    });
+  };
+
   const formatDate = (dateString) => {
     const data = new Date(dateString);
     return format(data, "MMM dd, yyyy");
@@ -64,17 +78,16 @@ const Movie = ({ movie }) => {
             ? formatDate(movie.release_date)
             : "Release date unknown"}
         </p>
-        <div className="movie-genres">
-          <p>Action</p> <p>Drama</p>
-        </div>
+        <div className="movie-genres">{renderGenres()}</div>
         <p className="movie-description">{shortenText(movie.overview, 25)}</p>
         <Rate
           className="movie-score-stars"
           allowHalf
-          defaultValue={0}
+          defaultValue={movie.rating}
           count={10}
           onChange={(evt) => {
-            setMovi({ ...movi, myScore: evt });
+            rateMovie(movie.id, guestSessionId, evt);
+            setMovies(movies);
           }}
         />
       </div>

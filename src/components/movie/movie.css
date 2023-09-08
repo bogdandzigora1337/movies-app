@@ -34,10 +34,14 @@
 
 .movie-score,
 .movie-date--release,
-.movie-description,
 .movie-genres {
   font-size: 12px;
   line-height: 22px;
+}
+
+.movie-description {
+  font-size: 12px;
+  line-height: 20px;
 }
 
 .movie-score {
@@ -79,15 +83,21 @@
 
 .movie-genres {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+
   color: rgba(0, 0, 0, 0.65);
   margin-bottom: 7px;
 }
 
 .movie-genres p {
   margin-right: 8px;
-  width: 46px;
+  margin-bottom: 3px;
+  padding-left: 2px;
+  padding-right: 2px;
   text-align: center;
+  line-height: 15px;
+  font-size: 12px;
   border-radius: 2px;
   border: 1px solid #d9d9d9;
 }

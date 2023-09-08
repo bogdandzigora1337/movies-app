@@ -1,21 +1,43 @@
 import React, { useEffect, useState } from "react";
-import SwapiService from "../../services/swapi-server";
+import TmdbАpiService from "../../services/swapi-server";
 import Movie from "../movie/movie";
 import ErrorIndicator from "../error-indicator/error-indicator";
-import { Alert, Space, Spin, Pagination } from "antd";
+import { Spin, Pagination } from "antd";
 import { ExclamationCircleTwoTone, EditTwoTone } from "@ant-design/icons";
 
 import "./movies-list.css";
 
-const MoviesList = ({ movies, setMovies, inputText }) => {
-  const swapiService = new SwapiService();
+const MoviesList = ({
+  movies,
+  setMovies,
+  inputText,
+  rateMovie,
+  guestSessionId,
+  moviesRate,
+  activeTab,
+  setMoviesRate,
+}) => {
+  const tmdbАpiService = new TmdbАpiService();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const moviesWithRatings =
+    movies && movies.results
+      ? movies.results.map((movie) => {
+          const movieRating = Array.isArray(moviesRate.results)
+            ? moviesRate.results.find((rateMovie) => rateMovie.id === movie.id)
+            : null;
+          return {
+            ...movie,
+            rating: movieRating ? movieRating.rating : 0,
+          };
+        })
+      : [];
+
   const onMoviesLoaded = (movies) => {
-    setMovies(movies);
+    activeTab === "1" ? setMovies(movies) : setMoviesRate(movies);
     setLoading(false);
     setError(null);
   };
@@ -27,15 +49,21 @@ const MoviesList = ({ movies, setMovies, inputText }) => {
   };
 
   const updateMovies = async (movieTitle, page = 1) => {
-    if (!movieTitle) {
+    if (!movieTitle && activeTab === "1") {
       setMovies(null);
       return;
     }
     setLoading(true);
     try {
-      const movies = await swapiService.getResource(movieTitle, page);
+      const movies =
+        activeTab === "1"
+          ? await tmdbАpiService.getResource(movieTitle, page)
+          : await tmdbАpiService.getRatedMovies(guestSessionId, page);
+
       onMoviesLoaded(movies);
       setCurrentPage(page);
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
       onError(err);
     }
@@ -56,8 +84,15 @@ const MoviesList = ({ movies, setMovies, inputText }) => {
   const MoviesResults = () => (
     <>
       <ul className="movies-list">
-        {movies.results.map((movie) => (
-          <Movie key={movie.id} movie={movie}></Movie>
+        {moviesWithRatings.map((movie) => (
+          <Movie
+            key={movie.id}
+            movie={movie}
+            rateMovie={rateMovie}
+            guestSessionId={guestSessionId}
+            movies={movies}
+            setMovies={setMovies}
+          ></Movie>
         ))}
       </ul>
       <Pagination
@@ -74,7 +109,11 @@ const MoviesList = ({ movies, setMovies, inputText }) => {
   const NoResults = () => (
     <div className="main-content--no">
       <ExclamationCircleTwoTone style={{ fontSize: "30px" }} />
-      <p>Нет результатов по вашему запросу</p>
+      {activeTab === "1" ? (
+        <p>Нет результатов по вашему запросу</p>
+      ) : (
+        <p>Вы ещё не оценивали фильмы</p>
+      )}
     </div>
   );
 

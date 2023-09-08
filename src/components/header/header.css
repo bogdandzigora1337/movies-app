@@ -1,6 +1,7 @@
 .header {
   margin-bottom: 32px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
