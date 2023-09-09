@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
-import TmdbАpiService from "../../services/swapi-server";
-import Movie from "../movie/movie";
-import ErrorIndicator from "../error-indicator/error-indicator";
-import { Spin, Pagination } from "antd";
-import { ExclamationCircleTwoTone, EditTwoTone } from "@ant-design/icons";
+import React from 'react'
+import { useEffect, useState } from 'react'
+import { Spin, Pagination } from 'antd'
+import { ExclamationCircleTwoTone, EditTwoTone } from '@ant-design/icons'
 
-import "./movies-list.css";
+import TmdbАpiService from '../../services/swapi-server'
+import Movie from '../movie/movie'
+import ErrorIndicator from '../error-indicator/error-indicator'
+
+import './movies-list.css'
 
 const MoviesList = ({
   movies,
@@ -17,69 +19,70 @@ const MoviesList = ({
   activeTab,
   setMoviesRate,
 }) => {
-  const tmdbАpiService = new TmdbАpiService();
+  const tmdbАpiService = new TmdbАpiService()
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
+  /* eslint-disable indent */
   const moviesWithRatings =
     movies && movies.results
       ? movies.results.map((movie) => {
           const movieRating = Array.isArray(moviesRate.results)
             ? moviesRate.results.find((rateMovie) => rateMovie.id === movie.id)
-            : null;
+            : null
           return {
             ...movie,
             rating: movieRating ? movieRating.rating : 0,
-          };
+          }
         })
-      : [];
+      : []
+  /* eslint-enable indent */
 
   const onMoviesLoaded = (movies) => {
-    activeTab === "1" ? setMovies(movies) : setMoviesRate(movies);
-    setLoading(false);
-    setError(null);
-  };
+    activeTab === '1' ? setMovies(movies) : setMoviesRate(movies)
+    setLoading(false)
+    setError(null)
+  }
 
   const onError = (err) => {
-    console.error(err);
-    setLoading(false);
-    setError(err);
-  };
+    setLoading(false)
+    setError(err)
+  }
 
   const updateMovies = async (movieTitle, page = 1) => {
-    if (!movieTitle && activeTab === "1") {
-      setMovies(null);
-      return;
+    if (!movieTitle && activeTab === '1') {
+      setMovies(null)
+      return
     }
-    setLoading(true);
+    setLoading(true)
     try {
       const movies =
-        activeTab === "1"
+        activeTab === '1'
           ? await tmdbАpiService.getResource(movieTitle, page)
-          : await tmdbАpiService.getRatedMovies(guestSessionId, page);
+          : await tmdbАpiService.getRatedMovies(guestSessionId, page)
 
-      onMoviesLoaded(movies);
-      setCurrentPage(page);
+      onMoviesLoaded(movies)
+      setCurrentPage(page)
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch (err) {
-      onError(err);
+      onError(err)
     }
-  };
+  }
 
   useEffect(() => {
-    setCurrentPage(1);
-    updateMovies(inputText);
-  }, [inputText]);
+    setCurrentPage(1)
+    updateMovies(inputText)
+  }, [inputText])
 
   const LoadingSpinner = () => (
     <div className="main-content--loading">
       <Spin size="large" />
       <p>Загрузка...</p>
     </div>
-  );
+  )
 
   const MoviesResults = () => (
     <>
@@ -100,29 +103,25 @@ const MoviesList = ({
         current={currentPage}
         total={movies.total_pages * 10}
         onChange={(page) => {
-          updateMovies(inputText, page);
+          updateMovies(inputText, page)
         }}
       />
     </>
-  );
+  )
 
   const NoResults = () => (
     <div className="main-content--no">
-      <ExclamationCircleTwoTone style={{ fontSize: "30px" }} />
-      {activeTab === "1" ? (
-        <p>Нет результатов по вашему запросу</p>
-      ) : (
-        <p>Вы ещё не оценивали фильмы</p>
-      )}
+      <ExclamationCircleTwoTone style={{ fontSize: '30px' }} />
+      {activeTab === '1' ? <p>Нет результатов по вашему запросу</p> : <p>Вы ещё не оценивали фильмы</p>}
     </div>
-  );
+  )
 
   const EnterMovieName = () => (
     <div className="main-content--no">
-      <EditTwoTone style={{ fontSize: "30px" }} />
+      <EditTwoTone style={{ fontSize: '30px' }} />
       <p>Введите название фильма</p>
     </div>
-  );
+  )
 
   return (
     <div className="main">
@@ -144,7 +143,7 @@ const MoviesList = ({
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default MoviesList;
+export default MoviesList

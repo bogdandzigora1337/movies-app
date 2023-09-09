@@ -1,3 +1,9 @@
+.main {
+  min-height: 90vh;
+  position: relative;
+  padding-bottom: 50px;
+}
+
 body {
   background: #f7f7f7;
 }
@@ -6,4 +12,9 @@ body {
   margin: 0 auto;
   max-width: 1010px;
   background: #fff;
+}
+
+.tabs {
+  width: 115px;
+  margin: 0 auto;
 }

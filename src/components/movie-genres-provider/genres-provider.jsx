@@ -1,32 +1,29 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import TmdbАpiService from "../../services/swapi-server";
+import React, { createContext, useContext, useState, useEffect } from 'react'
 
-const MovieGenresContext = createContext();
+import TmdbАpiService from '../../services/swapi-server'
 
-export const MovieGenresProvider = ({ children }) => {
-  const [movieGenres, setMovieGenres] = useState([]);
-  const tmdbАpiService = new TmdbАpiService();
+const MovieGenresContext = createContext()
+
+export const MovieGenresProvider = ({ children, showErrorNotification }) => {
+  const [movieGenres, setMovieGenres] = useState([])
+  const tmdbАpiService = new TmdbАpiService()
 
   const getMovieGenres = async () => {
     try {
-      const moviesGenres = await tmdbАpiService.getMovieGenres();
-      setMovieGenres(moviesGenres);
+      const moviesGenres = await tmdbАpiService.getMovieGenres()
+      setMovieGenres(moviesGenres)
     } catch (error) {
-      console.error(error);
+      showErrorNotification('Не удалось получить жанры фильмов', error)
     }
-  };
+  }
 
   useEffect(() => {
-    getMovieGenres();
-  }, []);
+    getMovieGenres()
+  }, [])
 
-  return (
-    <MovieGenresContext.Provider value={movieGenres}>
-      {children}
-    </MovieGenresContext.Provider>
-  );
-};
+  return <MovieGenresContext.Provider value={movieGenres}>{children}</MovieGenresContext.Provider>
+}
 
 export const useMovieGenres = () => {
-  return useContext(MovieGenresContext);
-};
+  return useContext(MovieGenresContext)
+}

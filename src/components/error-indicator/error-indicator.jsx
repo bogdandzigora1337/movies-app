@@ -1,7 +1,7 @@
-import React from "react";
-import { Alert, Space } from "antd";
+import React from 'react'
+import { Alert, Space } from 'antd'
 
-import "./error-indicator.css";
+import './error-indicator.css'
 
 const ErrorIndicator = () => {
   return (
@@ -14,7 +14,7 @@ const ErrorIndicator = () => {
         className="alert-content"
       />
     </Space>
-  );
-};
+  )
+}
 
-export default ErrorIndicator;
+export default ErrorIndicator
